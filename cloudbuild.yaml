@@ -20,3 +20,5 @@ steps:
 images:
   - 'gcr.io/$PROJECT_ID/orders-service'
   - 'gcr.io/$PROJECT_ID/login-service'
+options:
+  logging: CLOUD_LOGGING_ONLY
