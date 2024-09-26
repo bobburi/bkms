@@ -1,0 +1,22 @@
+steps:
+  # Step 1: Build the Docker image for the Orders service
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/orders-service', '-f', 'Dockerfile-orders', '.']
+    dir: 'orders'  # Directory where the Dockerfile for Orders service resides
+
+  # Step 2: Push the Orders Docker image to Google Container Registry (GCR)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/orders-service']
+
+  # Step 3: Build the Docker image for the Login service
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/login-service', '-f', 'Dockerfile-login', '.']
+    dir: 'login'  # Directory where the Dockerfile for Login service resides
+
+  # Step 4: Push the Login Docker image to Google Container Registry (GCR)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/login-service']
+
+images:
+  - 'gcr.io/$PROJECT_ID/orders-service'
+  - 'gcr.io/$PROJECT_ID/login-service'
