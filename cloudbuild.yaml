@@ -2,7 +2,7 @@ steps:
   # Step 1: Build the Docker image for the Orders service
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/orders-service', '-f', 'Dockerfile-orders', '.']
-    dir: 'orders'  # Directory where the Dockerfile for Orders service resides
+    dir: 'orders'  # Ensure the directory contains Dockerfile-orders
 
   # Step 2: Push the Orders Docker image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
@@ -11,7 +11,7 @@ steps:
   # Step 3: Build the Docker image for the Login service
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/login-service', '-f', 'Dockerfile-login', '.']
-    dir: 'login'  # Directory where the Dockerfile for Login service resides
+    dir: 'login'  # Ensure the directory contains Dockerfile-login
 
   # Step 4: Push the Login Docker image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
@@ -20,5 +20,14 @@ steps:
 images:
   - 'gcr.io/$PROJECT_ID/orders-service'
   - 'gcr.io/$PROJECT_ID/login-service'
+
+# Add a longer timeout (20 minutes) in case the build takes time
+timeout: "1200s"  # 20 minutes
+
+# Set logging options and specify logging to Cloud Logging only (optional)
 options:
-  logging: CLOUD_LOGGING_ONLY
+  logging: CLOUD_LOGGING_ONLY  # Log only to Cloud Logging
+
+# Optionally, specify service account if needed (adjust service_account field)
+# Uncomment and modify if you need to use a specific service account
+# service_account: "[SERVICE_ACCOUNT_EMAIL]@PROJECT_ID.iam.gserviceaccount.com"
